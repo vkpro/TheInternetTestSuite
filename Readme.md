@@ -7,3 +7,4 @@ The project is designed with the following technology/tools
 - PageObject pattern
 - JUnit5
 - Allure reports
+- Selenide
