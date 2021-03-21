@@ -1,35 +1,29 @@
 package pages.addRemoveElements;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import pages.base.BasePage;
 
-public class AddRemoveElementPage extends BasePage {
-    public AddRemoveElementPage(WebDriver driver) {
-        super(driver);
-    }
+import static com.codeborne.selenide.Selenide.$;
 
-    private final By AddBtn = By.cssSelector("#content > div > button");
-    private final By DeleteBtn = By.cssSelector("#elements > button");
+public class AddRemoveElementPage extends BasePage {
+
+    private final SelenideElement AddBtn = $("#content > div > button");
+    private final SelenideElement DeleteBtn = $("#elements > button");
 
 
     public AddRemoveElementPage clickOnAddElementBtn() {
-        driver.findElement(AddBtn).click();
+        AddBtn.shouldBe(Condition.visible).click();
         return this;
     }
 
     public AddRemoveElementPage checkElementAdded() {
-        WebElement deleteBtn = driver.findElement(DeleteBtn);
-        waitElementIsVisible(deleteBtn);
+        DeleteBtn.shouldBe(Condition.visible);
         return this;
     }
 
     public AddRemoveElementPage removeElement() {
-        WebElement deleteBtn = driver.findElement(DeleteBtn);
-        waitElementIsVisible(deleteBtn).click();
+        DeleteBtn.shouldBe(Condition.visible).click();
         return this;
     }
-
-
 }

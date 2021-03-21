@@ -1,33 +1,36 @@
 package pages.base;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.Keys;
 
-import static constants.Constant.TimeoutVariables.EXPLICIT_WAIT;
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selectors.byText;
+
 
 public class BasePage {
-    public WebDriver driver;
-    public BasePage(WebDriver driver) {
-        this.driver = driver;
-    }
 
     /**
      * The method for navigating to a specific url
-     * @param url
      */
     public void goToUrl(String url) {
-        driver.get(url);
+        open(url);
     }
 
-    /***
-     * Wait for visibility element in DOM model
-     * @param  element
-     * @return element
+    /**
+     * Clean the element of the text and enter the text
+     *
+     * @param element SelenideElement
+     * @param value   some text
      */
-    public WebElement waitElementIsVisible(WebElement element) {
-        new WebDriverWait(driver, EXPLICIT_WAIT).until(ExpectedConditions.visibilityOf(element));
-        return element;
+    protected void clearAndType(SelenideElement element, String value) {
+        while (!element.getAttribute("value").equals("")) element.sendKeys(Keys.BACK_SPACE);
+        element.setValue(value);
+    }
+
+    public void checkMessage(String message) {
+        $(byText(message)).shouldBe(Condition.visible);
     }
 }
+
+

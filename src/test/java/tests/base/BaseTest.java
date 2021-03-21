@@ -1,12 +1,9 @@
 package tests.base;
 
 import common.CommonActions;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
+import common.Listener;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pages.addRemoveElements.AddRemoveElementPage;
@@ -23,10 +20,9 @@ import static common.Config.*;
 //@Execution(ExecutionMode.CONCURRENT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BaseTest {
-    protected WebDriver driver = CommonActions.createDriver();
-    protected BasePage basePage = new BasePage(driver);
-    protected LoginPage loginPage = new LoginPage(driver);
-    protected AddRemoveElementPage addRemoveElementPage = new AddRemoveElementPage(driver);
+    protected BasePage basePage = new BasePage();
+    protected LoginPage loginPage = new LoginPage();
+    protected AddRemoveElementPage addRemoveElementPage = new AddRemoveElementPage();
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
 
     static {
@@ -46,21 +42,4 @@ public class BaseTest {
             }
         }
     }
-
-    @AfterEach
-    void clearCookiesAndLocalStorage() {
-        if (CLEAR_COOKIES) {
-            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
-            driver.manage().deleteAllCookies();
-            javascriptExecutor.executeScript("window.sessionStorage.clear()");
-        }
-    }
-
-    @AfterAll
-    void close() {
-        if(!HOLD_BROWSER_OPEN){
-            driver.close();
-        }
-    }
-
 }

@@ -1,5 +1,6 @@
 package tests.login.positive;
 
+import org.junit.jupiter.api.Tags;
 import org.junit.jupiter.api.Test;
 import tests.base.BaseTest;
 

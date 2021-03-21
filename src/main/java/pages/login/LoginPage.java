@@ -1,36 +1,35 @@
 package pages.login;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import pages.base.BasePage;
 
-public class LoginPage extends BasePage {
-    public LoginPage(WebDriver driver) {
-        super(driver);
-    }
+import static com.codeborne.selenide.Selenide.$;
 
-    private final By loginBtn = By.cssSelector("#login > button");
-    private final By notification = By.cssSelector("#flash");
-    private final By usernameField = By.cssSelector("#username");
-    private final By passwordField = By.cssSelector("#password");
+public class LoginPage extends BasePage {
+
+    private final SelenideElement loginBtn = $("#login > button");
+    private final SelenideElement notification = $("#flash");
+    private final SelenideElement usernameField = $("#username");
+    private final SelenideElement passwordField = $("#password");
 
     public LoginPage clickOnLoginBtn() {
-        driver.findElement(loginBtn).click();
+        loginBtn.shouldBe(Condition.visible).click();
         return this;
     }
 
     /**
      * Check the content of the notification message
      *
-     * @param expectedMessage the notification message expected on the web page
+     * @param message the notification message expected on the web page
      */
-    public LoginPage checkNotificationMessage(String expectedMessage) {
-        WebElement notificationElement = driver.findElement(notification);
-        String actualNotificationMessage = waitElementIsVisible(notificationElement)
-                .getAttribute("textContent").trim();
-        Assertions.assertTrue(actualNotificationMessage.contains(expectedMessage));
+    public LoginPage checkNotificationMessage(String message) {
+//        String actualNotificationMessage = notification.shouldBe(Condition.visible)
+//                .getAttribute("textContent").trim();
+//        Assertions.assertTrue(actualNotificationMessage.contains(message));
+
+        checkMessage(message);
         return this;
     }
 
@@ -41,10 +40,8 @@ public class LoginPage extends BasePage {
      * @param password password for the authentication on the web page
      */
     public LoginPage fillAuthForm(String username, String password) {
-        WebElement usernameInput = driver.findElement(usernameField);
-        WebElement passwordInput = driver.findElement(passwordField);
-        waitElementIsVisible(usernameInput).sendKeys(username);
-        waitElementIsVisible(passwordInput).sendKeys(password);
+        clearAndType(usernameField.shouldBe(Condition.visible), username);
+        clearAndType(passwordField.shouldBe(Condition.visible), password);
         return this;
 
     }
